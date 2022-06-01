@@ -1,28 +1,38 @@
-svg#map{
+
+.narration {
+    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important;
+    color: rgba(55, 65, 81);
+    text-align: justify;
+}
+
+.header {
+    background-color: rgb(78, 55, 128);
+    color: white;
+    z-index: 1000;
+}
+
+svg#map {
     width: 100%;
     height: 100%;
-    background: rgba(24,24,103,1);
-    background: -moz-radial-gradient(circle, rgba(24,24,103,1) 0%, rgba(2,0,36,1) 100%);
-    background: -webkit-radial-gradient(circle, rgba(24,24,103,1) 0%, rgba(2,0,36,1) 100%);
-    background: radial-gradient(circle, rgba(24,24,103,1) 0%, rgba(2,0,36,1) 100%); 
+    background-image: white;
 }
 
-path[data-selected=true] {
-    fill: rgb(255, 28, 77)
+.rs-scale {
+    width: 120%;
 }
-
-path[data-selected=false] {
-    fill: rgb(2,0,36);
-}
-
-.rs-container .rs-scale span ins{
-    color: white;
+.rs-container .rs-scale span ins {
+    color: rgba(55, 65, 81);
 }
 
 .rs-container .rs-selected {
-    background-color: #0058bc;
-    border: 1px solid rgb(54, 0, 155);
-    opacity: 0.8;
+    background-color: rgb(78, 55, 128);
+    opacity: 0.9;
+}
+
+.rs-tooltip {
+    background-color: rgb(78, 55, 128);
+    color: white;
+    border-radius: 20px;
 }
 
 .rs-container .rs-pointer {
@@ -30,6 +40,104 @@ path[data-selected=false] {
     width: 20px;
 }
 
-.rs-pointer::before, .rs-pointer::after{
+.rs-pointer::before,
+.rs-pointer::after {
     display: none;
+}
+
+path[data-selected=true] {
+    stroke: rgb(33, 31, 31);
+    stroke-width: 1px;
+}
+
+path[data-selected=false] {
+    stroke: white;
+    stroke-width: 0.1px;
+}
+
+
+div.tooltip {
+    position: absolute;
+    text-align: left;
+    width: auto;
+    height: auto;
+    padding: 8px;
+    font-size: 12px;
+    background: lightsteelblue;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.event-name {
+    cursor: pointer;
+}
+
+.event-name:hover {
+    color: #0058bc;
+}
+
+
+#overlay {
+    position: fixed;
+    /* Sit on top of the page content */
+    display: block;
+    /* Hidden by default */
+    width: 100%;
+    /* Full width (cover the whole page) */
+    height: 100%;
+    /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    /* Black background with opacity */
+    z-index: 2;
+    /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer;
+    /* Add a pointer on hover */
+}
+
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: inline-block;
+    border-top: 4px solid #FFF;
+    border-right: 4px solid transparent;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+.loader::after {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border-left: 4px solid #FF3D00;
+    border-bottom: 4px solid transparent;
+    animation: rotation 0.5s linear infinite reverse;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.sidenav {
+    background: rgb(212, 212, 212);
+    background: linear-gradient(90deg, rgba(212, 212, 212, 0.6418942577030813) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);
 }

@@ -16,115 +16,227 @@
 
 </head>
 
-<body data-theme="lofi">
+<body data-theme="light">
   <div class="bg-base-100 h-screen">
-    <div class="
-  sticky top-0 z-30 flex h-16 w-full justify-center bg-black transition-all duration-100 
-  text-primary-content
-  ">
-      <div class="navbar bg-opacity-0 p-4">
-        <div class="navbar-start">
-          <a class="flex items-start justify-center">
-            <img src="icons/icon.svg"/>
-            <h1 lass="text-xl lg:text-2xl ml-2">Atlas of Global Cathastropic Events</h1>
-          </a>
-        </div>
-        <div class="navbar-end">
-          <span class="tooltip tooltip-bottom before:text-xs before:content-[attr(data-tip)]" data-tip="GitHub">
-            <div class="flex-none items-center"><a aria-label="Github" target="_blank"
-                href="https://github.com/saadeghi/daisyui" rel="noopener"
-                class="btn btn-ghost drawer-button btn-square normal-case"><svg id="logo" width="20" height="20"
-                  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
-                  class="inline-block h-5 w-5 fill-current md:h-6 md:w-6">
-                  <path
-                    d="M256,32C132.3,32,32,134.9,32,261.7c0,101.5,64.2,187.5,153.2,217.9a17.56,17.56,0,0,0,3.8.4c8.3,0,11.5-6.1,11.5-11.4,0-5.5-.2-19.9-.3-39.1a102.4,102.4,0,0,1-22.6,2.7c-43.1,0-52.9-33.5-52.9-33.5-10.2-26.5-24.9-33.6-24.9-33.6-19.5-13.7-.1-14.1,1.4-14.1h.1c22.5,2,34.3,23.8,34.3,23.8,11.2,19.6,26.2,25.1,39.6,25.1a63,63,0,0,0,25.6-6c2-14.8,7.8-24.9,14.2-30.7-49.7-5.8-102-25.5-102-113.5,0-25.1,8.7-45.6,23-61.6-2.3-5.8-10-29.2,2.2-60.8a18.64,18.64,0,0,1,5-.5c8.1,0,26.4,3.1,56.6,24.1a208.21,208.21,0,0,1,112.2,0c30.2-21,48.5-24.1,56.6-24.1a18.64,18.64,0,0,1,5,.5c12.2,31.6,4.5,55,2.2,60.8,14.3,16.1,23,36.6,23,61.6,0,88.2-52.4,107.6-102.3,113.3,8,7.1,15.2,21.1,15.2,42.5,0,30.7-.3,55.5-.3,63,0,5.4,3.1,11.5,11.4,11.5a19.35,19.35,0,0,0,4-.4C415.9,449.2,480,363.1,480,261.7,480,134.9,379.7,32,256,32Z">
-                  </path>
-                </svg></a></div>
-          </span>
-        </div>
-      </div>
+    <div class="w-full border-b-2 border-black fixed top-0 left-0 header">
+      <h1 class="uppercase text-xs font-bold pt-3 pb-3 pl-16">BAKHTIAR AMALUDIN <span class="font-normal text-white-600"> - STUDENT ID 31282237</span></h1>
+
+      <a class="btn btn-circle absolute top-2 right-2 btn-xs cursor-pointer" href="https://github.com/maziyank" target="_blank">
+        <svg id="logo" width="20" height="20"
+        xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"
+        class="inline-block h-5 w-5 fill-current">
+        <path
+          d="M256,32C132.3,32,32,134.9,32,261.7c0,101.5,64.2,187.5,153.2,217.9a17.56,17.56,0,0,0,3.8.4c8.3,0,11.5-6.1,11.5-11.4,0-5.5-.2-19.9-.3-39.1a102.4,102.4,0,0,1-22.6,2.7c-43.1,0-52.9-33.5-52.9-33.5-10.2-26.5-24.9-33.6-24.9-33.6-19.5-13.7-.1-14.1,1.4-14.1h.1c22.5,2,34.3,23.8,34.3,23.8,11.2,19.6,26.2,25.1,39.6,25.1a63,63,0,0,0,25.6-6c2-14.8,7.8-24.9,14.2-30.7-49.7-5.8-102-25.5-102-113.5,0-25.1,8.7-45.6,23-61.6-2.3-5.8-10-29.2,2.2-60.8a18.64,18.64,0,0,1,5-.5c8.1,0,26.4,3.1,56.6,24.1a208.21,208.21,0,0,1,112.2,0c30.2-21,48.5-24.1,56.6-24.1a18.64,18.64,0,0,1,5,.5c12.2,31.6,4.5,55,2.2,60.8,14.3,16.1,23,36.6,23,61.6,0,88.2-52.4,107.6-102.3,113.3,8,7.1,15.2,21.1,15.2,42.5,0,30.7-.3,55.5-.3,63,0,5.4,3.1,11.5,11.4,11.5a19.35,19.35,0,0,0,4-.4C415.9,449.2,480,363.1,480,261.7,480,134.9,379.7,32,256,32Z">
+        </path>
+      </svg>
+      </a>
     </div>
 
-    <div
-      class="text-primary-content -mt-[4rem] grid place-items-center items-start bg-gradient-to-br mx-auto min-h-screen md:max-w-full pt-16">
-      <svg id="map"></svg>
-      <div id="country-detail-modal"
-        class="hidden fixed right-5 h-3/4 my-5 card w-1/3 rounded-lg shadow-xl bg-base-200 opacity-50">
-        <label class="btn btn-xs btn-circle absolute right-2 top-2" onclick="unselectCountry()">✕</label>
-        <div class="card-body w-full p-4">
-          <h4 class="text-2xl font-medium text-gray-800">Indonesia <span data-year="2020"></span>(2020)</h4>
-          <div class="flex tabs w-full">
-            <a id="tab-btn-1" onclick="changeTab(1)" class="flex-auto tab tab-lg tab-bordered tab-active">Summary</a>
-            <a id="tab-btn-2" onclick="changeTab(2)" class="flex-auto tab tab-lg tab-bordered">Past Events</a>
+    <div class="flex">
+      <div class="flex-none w-1/3 h-auto p-16 sidenav">
+        <h1 class="text-3xl font-bold">Atlas of Global Catashtropic Events</h1>
+        <h2 class="text-xl mb-8 italic">Understanding the world full of risks</h2>
+        <p class="narration indent-8">Natural disasters are phenomena that can occur at any time, anywhere and at any
+          time, causing risks or dangers to human life, both property losses and human casualties. There are many type of natural disaster like 
+          flood, storm, earthquake etc. Hence, knowing our natural conditions in which we live is considered important. Understanding disaster also can be used
+          to support the decision-making process regarding prevention and preparedness for future disasters.</p>
+
+        <p class="narration indent-8">Using the <a class="link font-bold" href="https://www.emdat.be/" target="_blank"> Emergency
+            Events Database (EM-DAT)</a> published by the Center for Research on the Epidemiology of Disasters (CRED) we
+          aim to visualize the disaster profile for each country from 2000 to 2021. However, you can filter by the year
+          the disaster occurred using the slider below.</p>
+
+
+        <div class="w-5/6 ml-10">
+          <div class="mt-10 mb-5 items-center justify-center">
+            <input type="text" id="yearSlider" />
           </div>
-          <div id="tab-content-2" class="pt-5 tab-content h-full overflow-y hidden">
-            <script id="event-list-template" type="text/template">
-              <ol class="relative border-l border-gray-200 dark:border-gray-700">
-              <li class="mb-10 ml-4">
-                <div
-                  class="absolute w-3 h-3 bg-gray-200 rounded-full -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+        </div>
+
+        <p class="narration indent-8">Through the map beside we can see that the occurrence of disasters in each country
+          is different. Some countries often experience disasters and suffer substantial loss of life and infrastructures. The
+          color difference reflect the value of certain variable for each country which can be the number of
+          disaster events, the number of death tools, the number of people affected and financial damage losses. We can select color encoding for the map via the buttons below.</p>
+        <div class="btn-group my-3 items-center justify-center">
+          <input onchange="fillMap()" name="matricSelect" type="radio" name="options" data-title="Occurence"
+            class="btn btn-xs btn-outline" />
+          <input onchange="fillMap()" name="matricSelect" type="radio" name="options" data-title="Total Deaths"
+            class="btn btn-xs btn-outline" checked />
+          <input onchange="fillMap()" name="matricSelect" type="radio" name="options" data-title="Total Affected"
+            class="btn btn-xs btn-outline" />
+          <input onchange="fillMap()" name="matricSelect" type="radio" name="options"
+            data-title="Total Damages Adjusted" class="btn btn-xs btn-outline" />
+        </div>
+
+
+        <p class="narration indent-8">Furthermore, we can also see detailed disaster information for each country. A
+          dialog will appear if we click on a country on the map. There we can find out many things such as what types
+          of disasters often occur and how each type of disaster has a very detrimental negative impact.</p>
+
+      </div>
+      <div class="flex-1 h-screen relative">
+        <svg id="map"></svg>
+        <div id="legend1" class="absolute bottom-10 left-10"></div>
+
+        <div id="country-detail-modal" class="hidden fixed right-5 h-5/6 my-1 top-16 card w-2/5 shadow-xl bg-base-200">
+          <label class="btn btn-xs btn-circle absolute right-2 top-2" onclick="unselectCountry()">✕</label>
+          <div class="card-body w-full h-full p-4">
+            <h4 class="text-2xl font-medium" id="detail-country-name">Country Name</h4>
+            <div class="flex tabs w-full">
+              <a id="tab-btn-1" onclick="changeTab(1)" class="flex-auto tab tab-lg tab-bordered tab-active">Summary</a>
+              <a id="tab-btn-2" onclick="changeTab(2)" class="flex-auto tab tab-lg tab-bordered">20 Worst Disaster</a>
+            </div>
+            <div id="tab-content-2" class="p-2 tab-content h-full overflow-y-auto hidden">
+              <ol class="relative border-l border-gray-200 dark:border-gray-700" id="event-timeline">
+                <h6 class="text-sm mb-2">This lit showing 20 worst disaster for this period. The title can be clicked to figure out more about the event on google.</h6>
+                <li class="mb-10 ml-4">
+                  <div
+                    class="absolute w-5 h-5 bg-gray-200 rounded-full -left-2.5 border border-white dark:border-gray-900 dark:bg-gray-700">
+                  </div>
+                  <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{date}}</time>
+                  <h3 class="text-lg font-semibold dark:text-white">{{title}}</h3>
+                  <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{description}}.</p>
+                </li>
+              </ol>
+            </div>
+
+            <div id="tab-content-1" class="p-2 tab-content h-full overflow-y-auto">
+              <h5 class="text-md font-semibold my-2">Summary</h5>
+              <div class="stats shadow-md flex items-stretch rounded-md">
+                <div class="stat p-3 ">
+                  <div class="stat-title">Occurence</div>
+                  <div class="stat-value text-accent" id="stat-event">31K</div>
+                  <!-- <div class="stat-desc">Disaster events</div> -->
                 </div>
-                <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{date}}</time>
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{title}}</h3>
-                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{description}}.</p>
-              </li>
-            </ol>
-          </script>
-          </div>
-          <div id="tab-content-1" class="p-2 tab-content h-full overflow-y">
-            <h5 class="text-lg font-semibold text-gray-900 my-2">Overview</h5>
-            <div class="stats shadow">
-              <div class="stat">
-                <div class="stat-title">Disasters</div>
-                <div class="stat-value">31K</div>
+                <div class="stat p-3 ">
+                  <div class="stat-title">Deaths</div>
+                  <div class="stat-value text-warning" id="stat-deaths">31K</div>
+                  <!-- <div class="stat-desc">Number of death toll</div> -->
+                </div>
+
+                <div class="stat p-3 ">
+                  <div class="stat-title">Affected People</div>
+                  <div class="stat-value text-secondary" id="stat-affected">42K</div>
+                  <!-- <div class="stat-desc">Number of people affected</div> -->
+                </div>
+                <div class="stat p-3 ">
+                  <div class="stat-title">Damage Loss</div>
+                  <div class="stat-value text-info" id="stat-damage">22K</div>
+                  <!-- <div class="stat-desc">Adjusted Damage Loss</div> -->
+                </div>
               </div>
 
-              <div class="stat">
-                <div class="stat-title">People Affected</div>
-                <div class="stat-value">4,200</div>
+              <div class="divider"></div>
+              <h5 class="text-md font-semibold my-2 ">Filter Disaster Type</h5>
+              <div class="grid grid-cols-3 gap-1 content-start w-full bg-gray-100 p-2 rounded-md">
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Flood" id="cb-flood" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Flood</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Storm" id="cb-storm" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Storm</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Earthquake" id="cb-earthquake" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Earthquake</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Epidemic" id="cb-epidemic" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Epidemic</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Landslide" id="cb-landslide" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Landslide</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Drought" id="cb-drought" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Drought</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Extreme temperature " id="cb-extreme" type="checkbox"
+                    onchange="filterDisaster(this)" checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Extreme temperature</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Volcanic activity" id="cb-volcanic" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Volcanic</span>
+                </label>
+                <label class="label cursor-pointer p-0">
+                  <input data-label="Other" id="cb-other" type="checkbox" onchange="filterDisaster(this)"
+                    checked="checked" class="checkbox cb-disaster mr-1 checkbox-sm" />
+                  <span class="label-text text-left w-full">Other</span>
+                </label>
               </div>
-              <div class="stat">
-                <div class="stat-title">Financial Loss</div>
-                <div class="stat-value">4,200</div>
+              <div class="divider"></div>
+              <div class="legend"></div>
+
+              <h5 class="text-md font-semibold">Disaster Occurence</h5>
+              <h6 class="text-sm mb-2">This chart shows the number of disaster events in certain period. Each color indicate different disaster type.</h6>
+              <div class="card card-compact bg-base-200 rounded-md">
+                <div class="card-body">
+                  <div id="viz_occurence"></div>
+                </div>
+              </div>
+
+              <h5 class="text-md font-semibold my-2">Deaths</h5>
+              <h6 class="text-sm mb-2">This bar chart show the cumulative number of death tolls as the impact of disaster for this country over the period.</h6>
+              <div class="card card-compact bg-base-200 rounded-md">
+                <div class="card-body">
+                  <div id="viz_death"></div>
+                </div>
+              </div>
+
+              <h5 class="text-md font-semibold my-2">People Affected</h5>
+              <h6 class="text-sm mb-2">This bar chart show the cumulative number of people affected as the impact of disaster for this country over the period.</h6>
+              <div class="card card-compact bg-base-200 rounded-md">
+                <div class="card-body">
+                  <div id="viz_affected"></div>
+                </div>
+              </div>
+
+              <h5 class="text-md font-semibold my-2">Damage Loss (USD)</h5>
+              <h6 class="text-sm mb-2">This bar chart show the cumulative value of financial loss as the impact of disaster for this country over the period. The value is already adjusted to the current inflation rate.</h6>
+              <div class="card card-compact bg-base-200 rounded-md">
+                <div class="card-body">
+                  <div id="viz_damage"></div>
+                </div>
               </div>
             </div>
-            <h5 class="text-lg font-semibold text-gray-900 my-2">5 Worst Disaster</h5>
-            <h5 class="text-lg font-semibold text-gray-900 my-2">Disaster Type</h5>
-            <h5 class="text-lg font-semibold text-gray-900 my-2">Financial Impact</h5>
-            <h5 class="text-lg font-semibold text-gray-900 my-2">People Affected</h5>
+
           </div>
         </div>
       </div>
+
     </div>
-    <footer
-      class="sticky bottom-0 footer footer-center bg-gradient-to-b from-gray-300 to-gray-100 text-base-content z-10 px-4 py-2">
-      <div class="flex w-full max-w-full flex-col items-center justify-between sm:flex-row">
-        <div class="text-left">
-          <p class="text-base-content text-xs text-opacity-50">Created by</p>
-          <a href="https://github.com/mazyiank">
-            <h2 class="text-base-content text-lg font-bold">Bakhtiar Amaludin</h2>
-          </a>
-          <p class="text-base-content text-xs text-opacity-50">Data Source: <a href="https://public.emdat.be/"
-              target="_blank">Emergency Events Database</a></p>
-          </p>
-        </div>
-        </a> <a href="https://monash.edu" rel="nofollow" target="_blank"
-          class="link mt-2 inline-block opacity-50 hover:opacity-80">
-          <img src="images/monash.svg" width="120px" />
-        </a>
-      </div>
-    </footer>
-    <div class="fixed bottom-20 left-5 w-1/4">
-      <input type="text" id="yearSlider" />
-    </div>
+
+
+
 
   </div>
+
+  <div id="overlay"><span class="loader"></span></div>
 </body>
 
+<!-- 3rd party scripts -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="https://unpkg.com/mustache@latest"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
 <script src="scripts/rSlider.min.js"></script>
+
+
+<!-- our script -->
+<script src="scripts/map.js"></script>
+<script src="scripts/stackedArea.js"></script>
+<script src="scripts/stackedBar.js"></script>
+<script src="scripts/legend.js"></script>
 <script src="scripts/scripts.js"></script>
 
 </html>
