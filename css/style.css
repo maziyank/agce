@@ -56,7 +56,7 @@ path[data-selected=false] {
 }
 
 
-div.tooltip {
+div.tooltip2 {
     position: absolute;
     text-align: left;
     width: auto;
@@ -140,4 +140,12 @@ div.tooltip {
 .sidenav {
     background: rgb(212, 212, 212);
     background: linear-gradient(90deg, rgba(212, 212, 212, 0.6418942577030813) 0%, rgba(255, 255, 255, 1) 100%, rgba(255, 255, 255, 1) 100%);
+}
+
+/* filter svg button */
+
+.swap-on, .swap-off {
+    border: 2px solid rgb(0, 0, 0);
+    box-shadow: 2px 1px #020202;
+    filter: invert(25%) sepia(24%) saturate(1850%) hue-rotate(220deg) brightness(100%) contrast(93%);
 }

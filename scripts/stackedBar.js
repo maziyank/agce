@@ -50,7 +50,7 @@ function makeStackedBar(container, data, width, height, field, disasterType, exc
 
     // Define the div for the tooltip
     const barTooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
+        .attr("class", "tooltip2")
         .attr("id", "bar-tooltip")
         .style("opacity", 0);
 

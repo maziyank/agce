@@ -36,9 +36,13 @@ const onMapMouseOver = (_feature, index, path) => {
         .style("opacity", .9);
 
     const ISO = _feature.properties.iso_a3
-    const field = $('input[name="matricSelect"]:checked').getAttribute('data-title');
-    d3.select("#mapTooltip").html(_feature.properties.name + "<br/>" +
-        field + ': ' + numberWithCommas(CurrentSummaryData[ISO][field]) + "<br/>" + '<i>Click to see detail</i>')
+    const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
+
+    if (!disasterDetailData[ISO]) return;
+
+    d3.select("#mapTooltip").html('<b>' +
+        _feature.properties.name + "</b><br/>" +
+        field + ': ' + numberWithCommas(disasterDetailData[ISO][field]) + "<br/>" + '<i>Click to see detail</i>')
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
 }
@@ -65,8 +69,8 @@ const zoom = d3.zoom()
 
 
 // retrieve geojson data for map projection
-function renderMap(mapData, onClick ) {
-    // https://d3-wiki.readthedocs.io/zh_CN/master/Geo-Projections/
+function renderMap(mapData, onClick) {
+
     const projection = d3.geoMercator();
     projection.fitExtent([[50, 50], [canvasWidth, canvasHeight]], mapData);
 
@@ -92,7 +96,7 @@ function renderMap(mapData, onClick ) {
 
     // add tooltip
     d3.select("body").append("div")
-        .attr("class", "tooltip")
+        .attr("class", "tooltip2")
         .attr("id", "mapTooltip")
         .style("opacity", 0);
 

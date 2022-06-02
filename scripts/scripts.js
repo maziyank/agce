@@ -1,27 +1,15 @@
 // ***** GLOBAL VARIABLE ***** //
 
-var CurrentSummaryData = undefined;
 var currentTransform = undefined;
 var eventsData = undefined;
 var disasterDetailData = undefined;
 
+
 const ColorRange = {
-    "Occurence": {
-        factor: 1,
-        range: d3.scaleLinear().domain([1, 100]).range(["#f3ddc7e6", "#ad7f4e"])
-    },
-    "Total Deaths": {
-        factor: 10e2,
-        range: d3.scaleLinear().domain([1, 100]).range(["#ADA3C7", "#54457F"])
-    },
-    "Total Affected": {
-        factor: 10e4,
-        range: d3.scaleLinear().domain([1, 100]).range(["pink", "purple"])
-    },
-    "Total Damages Adjusted": {
-        factor: 10e5,
-        range: d3.scaleLinear().domain([1, 100]).range(["#ffc589", "#ff992f"])
-    },
+    "Occurence": ["#f3ddc7e6", "#ad7f4e"],
+    "Total Deaths": ["#ADA3C7", "#302a40"],
+    "Total Affected": ["pink", "purple"],
+    "Total Damages Adjusted": ["#ffc589", "#ff992f"],
 }
 
 const disasterType = { 'Flood': 0, 'Storm': 0, 'Earthquake': 0, 'Epidemic': 0, 'Landslide': 0, 'Drought': 0, 'Extreme temperature ': 0, 'Volcanic activity': 0, 'Other': 0 }
@@ -33,6 +21,7 @@ const disasterTypeColorScale = d3.scaleOrdinal()
 var selectedCountry = undefined;
 var selectedCountryISO = undefined;
 var excludeDetailDisaster = [];
+var excludeGlobalDisaster = [];
 
 // general functions
 function formatNum(value) {
@@ -59,6 +48,7 @@ const remClass = (el, name) => el.classList.remove(name);
 
 
 // ***** USER INTERFACE ROUTINES ***** //
+
 
 // change detail dialog tab
 const changeTab = (id) => {
@@ -88,6 +78,7 @@ const yearSlider = new rSlider({
 
 // Unselect country in map
 const unselectCountry = () => {
+    $("#mapTitle").style.display = "block";
     addClass($("#country-detail-modal"), "hidden");
     d3.select(selectedCountry).attr('data-selected', false)
     selectedCountry = undefined;
@@ -125,7 +116,7 @@ const selectCountry = (feature, index, path, projection) => {
 }
 
 // Filter Disaster Type
-function filterDisaster(event) {
+function countryFilterDisaster(event) {
     if (!event.checked) {
         excludeDetailDisaster.push(event.getAttribute("data-label"))
     } else {
@@ -136,39 +127,71 @@ function filterDisaster(event) {
     showDetail(selectedCountryISO, excludeDetailDisaster)
 }
 
+
+function globalFilterDisaster(event) {
+    if (!event.checked) {
+        excludeGlobalDisaster.push(event.getAttribute("data-label"))
+    } else {
+        excludeGlobalDisaster = excludeGlobalDisaster.filter(item => item !== event.getAttribute("data-label"))
+    }
+
+    excludeGlobalDisaster = [...new Set(excludeGlobalDisaster)];
+    fillMap();
+}
+
 // Change Map Color Encoding
 function fillMap() {
-    const field = $('input[name="matricSelect"]:checked').getAttribute('data-title');
+    const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
 
     const sliderValue = yearSlider.getValue().split(',').map(x => parseInt(x));
     const canvas = d3.select("svg#map");
+
+    let maxValue = 0;
+
+    Object.keys(disasterDetailData).forEach(ISO => {
+        let country = disasterDetailData[ISO];
+        let value = country.Values.filter(item => (item.Year >= sliderValue[0]) && (item.Year <= sliderValue[1]));
+        value = value.map(item => item[field])
+        value = value.map(item => Object.keys(item).reduce((p, c) => p + (!excludeGlobalDisaster.includes(c) ? item[c] : 0), 0))
+        value = value.reduce((p, c) => p + c, 0);
+        if (value > maxValue) maxValue = value;
+        disasterDetailData[ISO][field] = value;
+    })
+
+    const currColorRange = d3.scaleLinear().domain([0, maxValue]).range(ColorRange[field])
+
     canvas.selectAll('path')
         .filter('.country')
         .attr("fill", d => {
-            let ISO = d.properties.iso_a3;
-            let country = CurrentSummaryData[ISO];
-            if (!country) return ColorRange[field].range(0)
-            let value = country.Values.filter(item => (item.Year >= sliderValue[0]) && (item.Year <= sliderValue[1]));
-            value = value.reduce((p, c) => p + c[field], 0);
-            CurrentSummaryData[ISO][field] = value;
-            colorIndex = Math.min(99, Math.floor(value / ColorRange[field].factor));
-            return ColorRange[field].range(colorIndex);
+            const ISO = d.properties.iso_a3;
+            const country = disasterDetailData[ISO];
+            if (!country) return currColorRange(0);
+            return currColorRange(country[field]);
         })
 
-
     // Legend
-    continuousLegend("#legend1", ColorRange[field].range, ColorRange[field].factor)
+    const field_name = $('input[name="matricSelect"]:checked').getAttribute('data-title');
+    $("#mapTitle").innerHTML = `Global natural disasters mapping by the number of <b> ${field_name} </b> from ${sliderValue[0]} to ${sliderValue[1]}`
+    continuousLegend("#legend1", currColorRange, 1)
 }
 
 // Show Detailed Chart
 function showDetail(ISO, exc_disasterType) {
-    data = CurrentSummaryData[ISO].Values;
+    $("#mapTitle").style.display = "none";
+    const sliderValue = yearSlider.getValue().split(',').map(x => parseInt(x));
 
+    let data = disasterDetailData[ISO].Values;
+    data = data.filter(item => (item.Year >= sliderValue[0]) && (item.Year <= sliderValue[1]));
     // Stats Card
-    const no_events = data.reduce((p, c) => p + c["Occurence"], 0);
-    const total_damage = data.reduce((p, c) => p + c["Total Damages Adjusted"], 0);
-    const total_affected = data.reduce((p, c) => p + c["Total Affected"], 0);
-    const total_deaths = data.reduce((p, c) => p + c["Total Deaths"], 0);
+    function populate(field) {
+        const sum1 = data.map(item => Object.keys(item[field]).reduce((i, j) => i + (!exc_disasterType.includes(j) ? item[field][j] : 0), 0), 0);
+        return sum1.reduce((i, j) => i + j, 0)
+    }
+
+    const no_events = populate("Occurence")
+    const total_damage = populate("Total Damages Adjusted");
+    const total_affected = populate("Total Affected");
+    const total_deaths = populate("Total Deaths");
 
     $("#stat-event").innerText = formatNum(no_events);
     $("#stat-deaths").innerText = formatNum(total_deaths);
@@ -176,13 +199,11 @@ function showDetail(ISO, exc_disasterType) {
     $("#stat-damage").innerText = formatNum(total_damage);
 
     // Dialog Header
-    const sliderValue = yearSlider.getValue().split(',').map(x => parseInt(x));
-    $("#detail-country-name").innerHTML = `${CurrentSummaryData[ISO].Country} (${sliderValue[0]} - ${sliderValue[1]})`
-
+    $("#detail-country-name").innerHTML = `${disasterDetailData[ISO].Country} (${sliderValue[0]} - ${sliderValue[1]})`
 
     // Detailed Dialog 
     const margin = { top: 10, right: 30, bottom: 30, left: 50 },
-        width = 600 - margin.left - margin.right,
+        width = 650 - margin.left - margin.right,
         height = 350 - margin.top - margin.bottom;
 
     const detailData = disasterDetailData[ISO]
@@ -242,14 +263,14 @@ function showDetail(ISO, exc_disasterType) {
     // Worst disaster timeline
     let eventData = eventsData[ISO].Events;
     eventData = eventData.filter(item => (item.Year >= sliderValue[0]) && (item.Year <= sliderValue[1]));
-    const field = $('input[name="matricSelect"]:checked').getAttribute('data-title');
+    const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
     eventData = eventData.sort(function (a, b) { return b[field] - a[field] });
     eventData = eventData.slice(0, 20);
     timelineContainer = $("#event-timeline");
     timelineContainer.innerHTML = "";
     eventData.map(item => {
-        let Start_Date = moment(item.Start_Date).format("D MMM YY");
-        let End_Date = moment(item.End_Date).format("D MMM YY");
+        let Start_Date = new Date(Date.parse(item.Start_Date)).toDateString();
+        let End_Date = new Date(Date.parse(item.End_Date)).toDateString()
         item.Start_Date = Start_Date;
         item.End_Date = End_Date;
         return item
@@ -273,25 +294,17 @@ function showDetail(ISO, exc_disasterType) {
 
 // Document Loaded Event
 document.addEventListener('DOMContentLoaded', function () {
-    console.log("Welcome");
-
-    //  load map and encoding data
+    console.log("Welcome to Atlas of Global Catastrophic Events");
+    //  load map and disaster data
     Promise.all([
-        d3.json("data/custom2.geojson"),
+        d3.json("data/custom.geojson"),
         d3.json("data/summary.json"),
-    ]).then(function (files) {
-        renderMap(files[0], selectCountry);
-        CurrentSummaryData = files[1];
-        fillMap('Total Deaths');
-    })
-
-    //  load detailed data
-    Promise.all([
-        d3.json("data/detail.json"),
         d3.json("data/events.json")
     ]).then(function (files) {
-        disasterDetailData = files[0];
-        eventsData = files[1];
+        renderMap(files[0], selectCountry);
+        disasterDetailData = files[1];
+        eventsData = files[2];
+        fillMap();
         $('#overlay').style.display = 'none';
     })
 

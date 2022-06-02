@@ -46,7 +46,7 @@ function makeStackedArea(container, data, width, height, field, disasterType, ex
         .style("display", "none")
 
     const areaTooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
+        .attr("class", "tooltip2")
         .style("opacity", 0);
 
     container
