@@ -1,6 +1,7 @@
 /* Contain routines for creating legend */
 
 function makeLegend(data, container, width, height, x, y) {
+    // create main wrapper
     const legend = container.append("svg")
         .attr("width", width)
         .attr("height", height)
@@ -16,6 +17,7 @@ function makeLegend(data, container, width, height, x, y) {
             return "translate(" + xOff + "," + yOff + ")"
         })
 
+    // create rect bullet
     legend.append('rect')
         .attr("x", 0)
         .attr("y", 5)
@@ -25,6 +27,7 @@ function makeLegend(data, container, width, height, x, y) {
             return disasterTypeColorScale(d)
         })
 
+    // create text for each bullet
     legend.append('text')
         .attr("x", 15)
         .attr("y", 15)
@@ -38,10 +41,13 @@ function makeLegend(data, container, width, height, x, y) {
 
 // create continuous color legend http://bl.ocks.org/syntagmatic/e8ccca52559796be775553b467593a9f
 function continuousLegend(selector_id, colorscale, factor) {
-    let height = 200,
+
+    // global variabel
+    const height = 200,
         width = 80,
         margin = {top: 10, right: 60, bottom: 10, left: 2};
   
+    // creater wrapper
     d3.select(selector_id).selectAll("*").remove()
 
     let canvas = d3.select(selector_id)
@@ -57,8 +63,8 @@ function continuousLegend(selector_id, colorscale, factor) {
       .style("left", (margin.left) + "px")
       .node();
   
+     // create color bar 
     let ctx = canvas.getContext("2d");
-    
     let legendscale = d3.scaleLinear()
       .range([1, height - margin.top - margin.bottom])
       .domain(colorscale.domain());
@@ -73,7 +79,7 @@ function continuousLegend(selector_id, colorscale, factor) {
     });
     ctx.putImageData(image, 0, 0);
 
-  
+    // create right axis
     let legendaxis = d3.axisRight()
       .scale(legendscale)
       .tickSize(2)

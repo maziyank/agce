@@ -3,8 +3,12 @@
 var currentTransform = undefined;
 var eventsData = undefined;
 var disasterDetailData = undefined;
+var selectedCountry = undefined;
+var selectedCountryISO = undefined;
+var excludeDetailDisaster = [];
+var excludeGlobalDisaster = [];
 
-
+// categorical color range 
 const ColorRange = {
     "Occurence": ["#f3ddc7e6", "#ad7f4e"],
     "Total Deaths": ["#ADA3C7", "#302a40"],
@@ -14,16 +18,12 @@ const ColorRange = {
 
 const disasterType = { 'Flood': 0, 'Storm': 0, 'Earthquake': 0, 'Epidemic': 0, 'Landslide': 0, 'Drought': 0, 'Extreme temperature ': 0, 'Volcanic activity': 0, 'Other': 0 }
 
+// categorical color scale for disaster types
 const disasterTypeColorScale = d3.scaleOrdinal()
     .domain(Object.keys(disasterType))
     .range(["#fd7f6f", "#7eb0d5", "#b2e061", "#bd7ebe", "#ffb55a", "#ffee65", "#beb9db", "#fdcce5", "#8bd3c7"]);
 
-var selectedCountry = undefined;
-var selectedCountryISO = undefined;
-var excludeDetailDisaster = [];
-var excludeGlobalDisaster = [];
-
-// general functions
+// abbreviate number formatter functions
 function formatNum(value) {
     if ((value / 10e8) >= 1) {
         value = (value / 10e8).toFixed(1) + "B";
@@ -37,10 +37,12 @@ function formatNum(value) {
     return value;
 }
 
+// number formatter
 function numberWithCommas(value) {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
+// HTML Element Selector
 const $ = (d) => document.querySelector(d);
 const $$ = (d) => document.querySelectorAll(d);
 const addClass = (el, name) => el.classList.add(name);
@@ -115,7 +117,7 @@ const selectCountry = (feature, index, path, projection) => {
     }
 }
 
-// Filter Disaster Type
+// Filter Disaster Type for Country Dialog
 function countryFilterDisaster(event) {
     if (!event.checked) {
         excludeDetailDisaster.push(event.getAttribute("data-label"))
@@ -127,7 +129,7 @@ function countryFilterDisaster(event) {
     showDetail(selectedCountryISO, excludeDetailDisaster)
 }
 
-
+// Filter Disaster Type for Global Map
 function globalFilterDisaster(event) {
     if (!event.checked) {
         excludeGlobalDisaster.push(event.getAttribute("data-label"))
@@ -141,13 +143,12 @@ function globalFilterDisaster(event) {
 
 // Change Map Color Encoding
 function fillMap() {
+    // get state for filtering data
     const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
-
     const sliderValue = yearSlider.getValue().split(',').map(x => parseInt(x));
-    const canvas = d3.select("svg#map");
 
+    // arrange data
     let maxValue = 0;
-
     Object.keys(disasterDetailData).forEach(ISO => {
         let country = disasterDetailData[ISO];
         let value = country.Values.filter(item => (item.Year >= sliderValue[0]) && (item.Year <= sliderValue[1]));
@@ -158,8 +159,11 @@ function fillMap() {
         disasterDetailData[ISO][field] = value;
     })
 
+    // set color range scaler
     const currColorRange = d3.scaleLinear().domain([0, maxValue]).range(ColorRange[field])
 
+    // fill map boundaries
+    const canvas = d3.select("svg#map");
     canvas.selectAll('path')
         .filter('.country')
         .attr("fill", d => {
@@ -188,6 +192,7 @@ function showDetail(ISO, exc_disasterType) {
         return sum1.reduce((i, j) => i + j, 0)
     }
 
+    // populate value for stats card
     const no_events = populate("Occurence")
     const total_damage = populate("Total Damages Adjusted");
     const total_affected = populate("Total Affected");
@@ -295,16 +300,20 @@ function showDetail(ISO, exc_disasterType) {
 // Document Loaded Event
 document.addEventListener('DOMContentLoaded', function () {
     console.log("Welcome to Atlas of Global Catastrophic Events");
-    //  load map and disaster data
+
+    //  load map and disaster data, wait until all complete
     Promise.all([
         d3.json("data/custom.geojson"),
         d3.json("data/summary.json"),
         d3.json("data/events.json")
     ]).then(function (files) {
+        // render map and save data 
         renderMap(files[0], selectCountry);
         disasterDetailData = files[1];
         eventsData = files[2];
         fillMap();
+
+        // hide overlay
         $('#overlay').style.display = 'none';
     })
 

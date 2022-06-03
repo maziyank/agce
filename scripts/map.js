@@ -1,64 +1,13 @@
 /* Contain routines for projecting the map in canvas */
 
 
+// general variables
 const canvas = d3.select("svg#map")
 const canvasWidth = canvas.node().clientWidth;
 const canvasHeight = canvas.node().clientHeight;
-
 const geoGenerator = (projection) => d3.geoPath().projection(projection);
 
-const dragstarted = (d) => {
-    d3.event.sourceEvent.stopPropagation();
-    d3.select(this).classed("dragging", true);
-}
-
-const dragged = (d) =>
-    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
-
-const dragended = (d) =>
-    d3.select(this).classed("dragging", false);
-
-const drag = d3.drag()
-    .subject(d => d)
-    .on("start", dragstarted)
-    .on("drag", dragged)
-    .on("end", dragended);
-
-const onMapMouseOver = (_feature, index, path) => {
-    const el = path[index];
-    d3.select(el)
-        .transition()
-        .duration(50)
-        .style("opacity", "1");
-
-    d3.select("#mapTooltip").transition()
-        .duration(100)
-        .style("opacity", .9);
-
-    const ISO = _feature.properties.iso_a3
-    const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
-
-    if (!disasterDetailData[ISO]) return;
-
-    d3.select("#mapTooltip").html('<b>' +
-        _feature.properties.name + "</b><br/>" +
-        field + ': ' + numberWithCommas(disasterDetailData[ISO][field]) + "<br/>" + '<i>Click to see detail</i>')
-        .style("left", (d3.event.pageX) + "px")
-        .style("top", (d3.event.pageY - 28) + "px");
-}
-
-const onMapMouseLeave = (_feature, index, path) => {
-    const el = path[index];
-    d3.select(el)
-        .transition()
-        .duration(50)
-        .style("opacity", "0.8");
-
-    d3.select("#mapTooltip").transition()
-        .duration(100)
-        .style("opacity", 0);
-}
-
+// zoom map
 const zoom = d3.zoom()
     .scaleExtent([1, 20])
     .on("zoom", () => {
@@ -66,7 +15,61 @@ const zoom = d3.zoom()
         d3.select('g').attr("transform", currentTransform);
     });
 
+// mouse dragged
+const dragstarted = (d) => {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(this).classed("dragging", true);
+}
 
+const dragged = (d) => d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+
+const dragended = (d) => d3.select(this).classed("dragging", false);
+
+const drag = d3.drag()
+    .subject(d => d)
+    .on("start", dragstarted)
+    .on("drag", dragged)
+    .on("end", dragended);
+
+// triggered when mouse hover
+const onMapMouseOver = (_feature, index, path) => {
+    // change country opacity
+    const el = path[index];
+    d3.select(el)
+        .transition()
+        .duration(50)
+        .style("opacity", "1");
+
+    // show tooltip
+    d3.select("#mapTooltip").transition()
+        .duration(100)
+        .style("opacity", .9);
+
+    // set tooltipcontent
+    const ISO = _feature.properties.iso_a3
+    const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
+    if (!disasterDetailData[ISO]) return;
+    d3.select("#mapTooltip").html('<b>' +
+        _feature.properties.name + "</b><br/>" +
+        field + ': ' + numberWithCommas(disasterDetailData[ISO][field]) + "<br/>" + '<i>Click to see detail</i>')
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY - 28) + "px");
+}
+
+// triggered when mouse leaver
+const onMapMouseLeave = (_feature, index, path) => {
+    // set country opacity back
+    const el = path[index];
+    d3.select(el)
+        .transition()
+        .duration(50)
+        .style("opacity", "0.8");
+
+    // hide tooltip
+    d3.select("#mapTooltip").transition()
+        .duration(100)
+        .style("opacity", 0);
+}
 
 // retrieve geojson data for map projection
 function renderMap(mapData, onClick) {
@@ -91,7 +94,7 @@ function renderMap(mapData, onClick) {
         .attr("data-selected", false)
         .attr("opacity", ".8")
         .on("mouseover", onMapMouseOver)
-        .on("mouseleave", onMapMouseLeave)
+        .on("mouseout", onMapMouseLeave)
         .on("click", (feature, index, path) => onClick(feature, index, path, projection));
 
     // add tooltip

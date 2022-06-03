@@ -1,13 +1,16 @@
 /* Create Stacked Bar Chart */
 
 function makeStackedBar(container, data, width, height, field, disasterType, exclude_disaster) {
+    // get current year range state
     const sliderValue = yearSlider.getValue().split(',').map(x => parseInt(x));
+    
+    // filter data
     data.Values = data.Values.filter(item => (item.Year >= sliderValue[0]) && (item.Year <= sliderValue[1]))
-
     const currentData = data.Values.map(item => {
         return { ...{ 'Year': item.Year }, ...disasterType, ...item[field] };
     })
 
+    // prepared stacked data
     const groups = Object.keys(disasterType).filter(item => exclude_disaster ? !exclude_disaster.includes(item) : true);
     const stackGen = d3.stack()
         .keys(groups)
@@ -16,6 +19,7 @@ function makeStackedBar(container, data, width, height, field, disasterType, exc
 
     const stackedSeries = stackGen(currentData);
 
+    // axis X and Y scaler
     var xScale = d3.scaleLinear()
         .domain(d3.extent(currentData, (d) => d.Year))
         .range([0, width]);
@@ -28,6 +32,7 @@ function makeStackedBar(container, data, width, height, field, disasterType, exc
         )])
         .range([height - 50, 0]);
 
+    // prepare wrapper for bar chart
     const sel = container
         .selectAll('g.series')
         .data(stackedSeries)
@@ -54,6 +59,7 @@ function makeStackedBar(container, data, width, height, field, disasterType, exc
         .attr("id", "bar-tooltip")
         .style("opacity", 0);
 
+    // create bar 
     sel.selectAll('rect')
         .data((d) => d)
         .join('rect')
@@ -64,6 +70,7 @@ function makeStackedBar(container, data, width, height, field, disasterType, exc
         .attr('opacity', '0.9')
         .attr('height', (d) => yScale(d[0]) - yScale(d[1]))
         .on("mouseover", function (d, i) {
+            //  on mouse hover
             d3.select(this).attr("opacity", "1");
             barTooltip.transition()
                 .duration(100)
@@ -75,12 +82,13 @@ function makeStackedBar(container, data, width, height, field, disasterType, exc
                 .style("top", (d3.event.pageY - 28) + "px");
         })
         .on("mouseout", function (d, i) {
+            // on mouse leave
             d3.select(this).attr("opacity", "0.7");
-
             barTooltip.transition()
                 .duration(500)
                 .style("opacity", 0);
         })
 
+    // create legend
     makeLegend(groups, container, width, 80, -10, height - 20);
 }
