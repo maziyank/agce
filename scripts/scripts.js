@@ -177,6 +177,13 @@ function fillMap() {
     const field_name = $('input[name="matricSelect"]:checked').getAttribute('data-title');
     $("#mapTitle").innerHTML = `Global natural disasters mapping by the number of <b> ${field_name} </b> from ${sliderValue[0]} to ${sliderValue[1]}`
     continuousLegend("#legend1", currColorRange, 1)
+
+    // rank bar chart
+    let top_countries = Object.keys(disasterDetailData).map(item => { return { "Country": disasterDetailData[item].Country, "Value": disasterDetailData[item][field] } })
+    top_countries = top_countries.sort(function (a, b) { return b.Value - a.Value }).slice(0,10);
+    d3.select("#rankChart").selectAll("*").remove()
+    $("#barChartTitle").innerHTML = `10 countries with most ${field_name} from ${sliderValue[0]} to ${sliderValue[1]}`
+    barChart(top_countries, "#rankChart", ColorRange[field][1]);
 }
 
 // Show Detailed Chart
@@ -305,14 +312,14 @@ document.addEventListener('DOMContentLoaded', function () {
     Promise.all([
         d3.json("data/custom.geojson"),
         d3.json("data/summary.json"),
-        d3.json("data/events.json")
+        d3.json("data/events.json"),
+        d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv")
     ]).then(function (files) {
         // render map and save data 
         renderMap(files[0], selectCountry);
         disasterDetailData = files[1];
         eventsData = files[2];
         fillMap();
-
         // hide overlay
         $('#overlay').style.display = 'none';
     })

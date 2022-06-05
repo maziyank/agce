@@ -1,8 +1,9 @@
 
 .narration {
-    font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important;
+    /* font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif !important; */
     color: rgba(55, 65, 81);
     text-align: justify;
+    font-size: 14px;
 }
 
 .header {

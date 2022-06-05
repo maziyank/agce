@@ -12,7 +12,7 @@ const zoom = d3.zoom()
     .scaleExtent([1, 20])
     .on("zoom", () => {
         currentTransform = d3.event.transform;
-        d3.select('g').attr("transform", currentTransform);
+        d3.select('#gmap').attr("transform", currentTransform);
     });
 
 // mouse dragged
@@ -82,7 +82,9 @@ function renderMap(mapData, onClick) {
     canvas.call(drag);
 
     // draw map
-    canvas.append('g').selectAll('path')
+    canvas.append('g')
+        .attr('id',"gmap")
+        .selectAll('path')
         .data(mapData.features)
         .join('path')
         .attr('d', geoGenerator(projection))
