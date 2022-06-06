@@ -1,4 +1,0 @@
-Data needed:
-- Summary data.json
-- Country details data .json
-- Geo JSON data
