@@ -343,3 +343,8 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
 })
+
+window.addEventListener('resize', function () { 
+    // reload screen if resized
+    window.location.reload(); 
+});
