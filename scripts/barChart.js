@@ -1,5 +1,5 @@
 
-
+// Example taken from https://d3-graph-gallery.com/graph/barplot_horizontal.html 
 // Parse the Data
  function barChart(data, container_id, color) {
 
@@ -35,7 +35,7 @@
     container.append("g")
         .call(d3.axisLeft(y))
 
-
+    // Create Tooltip
     const barTooltip = d3.select("body").append("div")
         .attr("class", "tooltip2")
         .attr("id", "bar-tooltip2")
@@ -51,6 +51,7 @@
         .attr("width", function (d) { return x(d.Value); })
         .attr("height", y.bandwidth())
         .attr("fill", color)
+        .attr("cursor", "pointer")
         .attr("opacity", 0.5)
         .on("mouseover", function (d, i) {
             //  on mouse hover
@@ -66,7 +67,7 @@
         })
         .on("mouseout", function (d, i) {
             // on mouse leave
-            d3.select(this).attr("opacity", "0.7");
+            d3.select(this).attr("opacity", 0.5);
             barTooltip.transition()
                 .duration(500)
                 .style("opacity", 0);

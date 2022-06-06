@@ -192,14 +192,14 @@ function fillMap() {
 
     // Legend
     const field_name = $('input[name="matricSelect"]:checked').getAttribute('data-title');
-    $("#mapTitle").innerHTML = `Global natural disasters mapping by the ${AvgOrTotal} number of <b> ${field_name} ${AvgOrTotal=='average'? 'per occurence': ''} </b> from ${sliderValue[0]} to ${sliderValue[1]}`
+    $("#mapTitle").innerHTML = `Global natural disasters mapping by the ${AvgOrTotal} number of <b> ${field_name} ${AvgOrTotal=='average' && field !=='Occurence'? 'per occurence': ''} </b> from ${sliderValue[0]} to ${sliderValue[1]}`
     continuousLegend("#legend1", currColorRange, 1)
 
     // rank bar chart
     let top_countries = Object.keys(disasterDetailData).map(item => { return { "Country": disasterDetailData[item].Country, "Value": disasterDetailData[item][field] } })
     top_countries = top_countries.sort(function (a, b) { return b.Value - a.Value }).slice(0, 10);
     d3.select("#rankChart").selectAll("*").remove()
-    $("#barChartTitle").innerHTML = `10 countries with most ${AvgOrTotal} number of <br/> ${field_name} ${AvgOrTotal=='average'? 'per occurence': ''}  from ${sliderValue[0]} to ${sliderValue[1]}`
+    $("#barChartTitle").innerHTML = `10 countries with most ${AvgOrTotal} number of <br/> ${field_name} ${AvgOrTotal=='average' && field !=='Occurence'? 'per occurence': ''}  from ${sliderValue[0]} to ${sliderValue[1]}`
     barChart(top_countries, "#rankChart", ColorRange[field][1]);
 }
 
