@@ -330,8 +330,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Promise.all([
         d3.json("data/custom.geojson"),
         d3.json("data/summary.json"),
-        d3.json("data/events.json"),
-        d3.csv("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/7_OneCatOneNum_header.csv")
+        d3.json("data/events.json")
     ]).then(function (files) {
         // render map and save data 
         renderMap(files[0], selectCountry);
