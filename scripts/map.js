@@ -48,10 +48,12 @@ const onMapMouseOver = (_feature, index, path) => {
     // set tooltipcontent
     const ISO = _feature.properties.iso_a3
     const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
+    const field_name = $('input[name="matricSelect"]:checked').getAttribute('data-title');
+    const AvgOrTotal = $('input[name="AvgOrTotal"]:checked').getAttribute('data-field');
     if (!disasterDetailData[ISO]) return;
-    d3.select("#mapTooltip").html('<b>' +
-        _feature.properties.name + "</b><br/>" +
-        field + ': ' + numberWithCommas(disasterDetailData[ISO][field]) + "<br/>" + '<i>Click to see detail</i>')
+    d3.select("#mapTooltip").html(`<b> 
+        ${_feature.properties.name} </b><br/> 
+        ${field_name}  :  ${numberWithCommas(disasterDetailData[ISO][field])} (${AvgOrTotal}) <br/> <i>Click to see detail</i>`)
         .style("left", (d3.event.pageX) + "px")
         .style("top", (d3.event.pageY - 28) + "px");
 }
@@ -83,7 +85,7 @@ function renderMap(mapData, onClick) {
 
     // draw map
     canvas.append('g')
-        .attr('id',"gmap")
+        .attr('id', "gmap")
         .selectAll('path')
         .data(mapData.features)
         .join('path')

@@ -10,9 +10,9 @@ var excludeGlobalDisaster = [];
 
 // categorical color range 
 const ColorRange = {
-    "Occurence": ["#f3ddc7e6", "#ad7f4e"],
+    "Occurence": ["#f5c593", "#ad7f4e"],
     "Total Deaths": ["#ADA3C7", "#302a40"],
-    "Total Affected": ["pink", "purple"],
+    "Total Affected": ["#ffc5d0", "#c87a8a"],
     "Total Damages Adjusted": ["#ffc589", "#ff992f"],
 }
 
@@ -145,6 +145,9 @@ function globalFilterDisaster(event) {
 function fillMap() {
     // get state for filtering data
     const field = $('input[name="matricSelect"]:checked').getAttribute('data-field');
+    $('#AvgOrTotalGroup').style.display = (field == 'Occurence') ? 'none' : 'flex';
+
+    const AvgOrTotal = $('input[name="AvgOrTotal"]:checked').getAttribute('data-field');
     const sliderValue = yearSlider.getValue().split(',').map(x => parseInt(x));
 
     // arrange data
@@ -152,15 +155,30 @@ function fillMap() {
     Object.keys(disasterDetailData).forEach(ISO => {
         let country = disasterDetailData[ISO];
         let value = country.Values.filter(item => (item.Year >= sliderValue[0]) && (item.Year <= sliderValue[1]));
-        value = value.map(item => item[field])
-        value = value.map(item => Object.keys(item).reduce((p, c) => p + (!excludeGlobalDisaster.includes(c) ? item[c] : 0), 0))
-        value = value.reduce((p, c) => p + c, 0);
+
+        if (AvgOrTotal == 'average' && field !== 'Occurence') {
+            events = value.map(item => item['Occurence'])
+            events = events.map(item => Object.keys(item).reduce((p, c) => p + (!excludeGlobalDisaster.includes(c) ? item[c] : 0), 0))
+            events = events.reduce((p, c) => p + c, 0);
+
+            value = value.map(item => item[field])
+            value = value.map(item => Object.keys(item).reduce((p, c) => p + (!excludeGlobalDisaster.includes(c) ? item[c] : 0), 0))
+            value = value.reduce((p, c) => p + c, 0);
+
+            value = Math.floor((value / events))
+        } else {
+            value = value.map(item => item[field])
+            value = value.map(item => Object.keys(item).reduce((p, c) => p + (!excludeGlobalDisaster.includes(c) ? item[c] : 0), 0))
+            value = value.reduce((p, c) => p + c, 0);
+        }
+
         if (value > maxValue) maxValue = value;
         disasterDetailData[ISO][field] = value;
     })
 
     // set color range scaler
-    const currColorRange = d3.scaleLinear().domain([0, maxValue]).range(ColorRange[field])
+    console.log(0, maxValue)
+    const currColorRange = d3.scaleSqrt().domain([0, maxValue]).range(ColorRange[field])
 
     // fill map boundaries
     const canvas = d3.select("svg#map");
@@ -175,14 +193,14 @@ function fillMap() {
 
     // Legend
     const field_name = $('input[name="matricSelect"]:checked').getAttribute('data-title');
-    $("#mapTitle").innerHTML = `Global natural disasters mapping by the number of <b> ${field_name} </b> from ${sliderValue[0]} to ${sliderValue[1]}`
+    $("#mapTitle").innerHTML = `Global natural disasters mapping by the ${AvgOrTotal} number of <b> ${field_name} </b> from ${sliderValue[0]} to ${sliderValue[1]}`
     continuousLegend("#legend1", currColorRange, 1)
 
     // rank bar chart
     let top_countries = Object.keys(disasterDetailData).map(item => { return { "Country": disasterDetailData[item].Country, "Value": disasterDetailData[item][field] } })
-    top_countries = top_countries.sort(function (a, b) { return b.Value - a.Value }).slice(0,10);
+    top_countries = top_countries.sort(function (a, b) { return b.Value - a.Value }).slice(0, 10);
     d3.select("#rankChart").selectAll("*").remove()
-    $("#barChartTitle").innerHTML = `10 countries with most ${field_name} from ${sliderValue[0]} to ${sliderValue[1]}`
+    $("#barChartTitle").innerHTML = `10 countries with most ${AvgOrTotal} number of ${field_name} <br/> from ${sliderValue[0]} to ${sliderValue[1]}`
     barChart(top_countries, "#rankChart", ColorRange[field][1]);
 }
 

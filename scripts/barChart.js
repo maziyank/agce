@@ -5,7 +5,6 @@
 
     // set the dimensions and margins of the graph
     const parent = d3.select('.sidenav').node();
-    console.log(parent.getBoundingClientRect().width)
     let margin = { top: 20, right: 20, bottom: 20, left: 100 },
         width = parent.getBoundingClientRect().width - margin.left - margin.right - 150,
         height = 300 - margin.top - margin.bottom;

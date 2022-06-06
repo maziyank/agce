@@ -42,7 +42,7 @@
           <!-- <div class="text-gray-500 font-serif text-3xl ">“</div> -->
           <blockquote class="text-gray-900 font-serif text-md italic">
             We learn from every natural disaster. Whether it’s a fire or a flood, we learn something from it so we can
-            respond to the next one better (Malcolm Turnbull).
+            respond to the next one better <b>(Malcolm Turnbull, 29th Prime Minister of Australia).</b>
           </blockquote>
         </div>
         <p class="narration indent-8">Natural disasters can occur at any time, anywhere and at any time, causing risks
@@ -52,16 +52,12 @@
         </p>
 
 
-
-
-
-
         <p class="narration indent-8">In the map, we can see that some countries often experience disasters and suffer
           substantial loss of life and
           infrastructures. The colour difference reflects the value of a particular variable for each country which can
           be the number of disaster events, the number of death tools, the number of people affected and financial
           damage losses. </p>
-        <div class="btn-group my-5 items-center justify-center">
+        <div class="btn-group mt-5 mb-1 items-center justify-center">
           <input onchange="fillMap()" name="matricSelect" type="radio" name="options" data-title="Occurence"
             data-field="Occurence" class="btn btn-xs btn-outline rounded-none" />
           <input onchange="fillMap()" name="matricSelect" type="radio" name="options" data-title="Death Toll"
@@ -70,6 +66,13 @@
             data-field="Total Affected" class="btn btn-xs btn-outline rounded-none" />
           <input onchange="fillMap()" name="matricSelect" type="radio" name="options" data-title="Damages Loss"
             data-field="Total Damages Adjusted" class="btn btn-xs btn-outline rounded-none" />
+        </div>
+
+        <div class="btn-group mt-1 mb-4 items-center justify-center w-full" id="AvgOrTotalGroup">
+          <input onchange="fillMap()" name="AvgOrTotal" type="radio" name="options" data-title="Show as Total"
+            data-field="total" class="btn btn-xs btn-outline rounded-none" checked/>
+          <input onchange="fillMap()" name="AvgOrTotal" type="radio" name="options" data-title="Show as Average / Occurence"
+            data-field="average" class="btn btn-xs btn-outline rounded-none" />
         </div>
 
         <h5 class="text-center font-bold text-sm" id="barChartTitle"></h5>
