@@ -159,7 +159,7 @@ function fillMap() {
         if (AvgOrTotal == 'average' && field !== 'Occurence') {
             events = value.map(item => item['Occurence'])
             events = events.map(item => Object.keys(item).reduce((p, c) => p + (!excludeGlobalDisaster.includes(c) ? item[c] : 0), 0))
-            events = events.reduce((p, c) => p + c, 0);
+            events = events.reduce((p, c) => p + c, 0) || 0;
 
             value = value.map(item => item[field])
             value = value.map(item => Object.keys(item).reduce((p, c) => p + (!excludeGlobalDisaster.includes(c) ? item[c] : 0), 0))
