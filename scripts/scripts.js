@@ -177,7 +177,6 @@ function fillMap() {
     })
 
     // set color range scaler
-    console.log(0, maxValue)
     const currColorRange = d3.scaleSqrt().domain([0, maxValue]).range(ColorRange[field])
 
     // fill map boundaries
